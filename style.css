@@ -11,8 +11,8 @@ main {
 }
 
 .container {
-    width: 500px;
-    height: 250px;
+    width: 1500px;
+    height: 750px;
     background-color: blue;
     display: flex;
     flex-direction: column;
@@ -20,6 +20,16 @@ main {
     justify-content: center;
 }
 
+.input {
+    display: flex;
+    align-items: center;
+}
+
 .label {
     color: #FFF;
+    margin: 10px;
+}
+
+.inputFuncao {
+    width: 38px
 }

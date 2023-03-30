@@ -1,6 +1,16 @@
 // Defina os coeficientes do polinômio
-const coeficientes = [3, -5, 0, 1]; // polinômio: 3x^3 - 5x^2 + 1
+const input1 = document.querySelector(#coeficiente1)
+const input2 = document.querySelector(#coeficiente2)
+const input3 = document.querySelector(#coeficiente3)
+const input4 = document.querySelector(#coeficiente4)
+const inputEpsilon = document.querySelector(#epsilon)
+const btn = document.querySelector(#calcular)
 
+btn.addEventListener('click', ()=> {
+  const coeficientes = [input1.innerText, input2.innerText, input2.innerText, input2.innerText]
+})
+
+console.log(coeficientes)
 // Defina o intervalo de busca
 const limiteInferior = -10;
 const limiteSuperior = 10;
