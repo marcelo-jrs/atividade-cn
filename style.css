@@ -59,3 +59,8 @@ li {
 .hide {
     display: none;
 }
+
+.lista-resultados {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}

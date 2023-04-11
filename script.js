@@ -17,7 +17,7 @@ class Calculadora {
   }
 
   getFuncao(x){
-    return parseInt(this.coeficientes[0]) * (x) ** 3 -parseInt(this.coeficientes[1]) * (x) ** 2 + parseInt(this.coeficientes[2]) * (x) + parseInt(this.coeficientes[3])
+    return parseInt(this.coeficientes[0]) * (x) ** 3 - parseInt(this.coeficientes[1]) * (x) ** 2 + parseInt(this.coeficientes[2]) * (x) + parseInt(this.coeficientes[3])
   }
 
   avaliaFuncao() {
@@ -28,7 +28,7 @@ class Calculadora {
     tituloLista.textContent = 'Mudanças de sinais';
     listaIntervalos.appendChild(tituloLista);
 
-    for (let x = -10; x <= 10; x++) {
+    for (let x = -1000; x <= 1000; x++) {
 
       const resultado = this.getFuncao(x);
       const sinal = Math.sign(resultado);
@@ -56,6 +56,11 @@ class Calculadora {
   }
 
   bisseccao(a, b) {
+    const listaResultados = document.createElement('ul')
+    const tituloResultados = document.createElement('h3');
+    tituloResultados.textContent = 'Iterações';
+    listaResultados.appendChild(tituloResultados)
+
     let iter = 0;
     let fa = this.getFuncao(a);
     let fb = this.getFuncao(b);
@@ -70,10 +75,38 @@ class Calculadora {
       
       let c = (a + b) / 2;
       let fc = this.getFuncao(c);
-      
+
+      const itemLista = document.createElement('li')
+      const iteracao = document.createElement('div')
+      const itemXA = document.createElement('div')
+      const itemFA = document.createElement('div')
+      const itemXB = document.createElement('div')
+      const itemFB = document.createElement('div')
+      const itemC = document.createElement('div')
+      const itemFC = document.createElement('div')
+
+      iteracao.textContent = `${iter} - `
+      itemXA.textContent = `XA = ${a}`
+      itemFA.textContent = `f(a) = ${fa}`
+      itemXB.textContent = `XB = ${b}` 
+      itemFB.textContent = `f(b) = ${fb}` 
+      itemC.textContent = `C = ${c}` 
+      itemFC.textContent = `f(c) = ${fc}` 
+      itemLista.appendChild(iteracao)
+      itemLista.appendChild(itemXA)
+      itemLista.appendChild(itemFA)
+      itemLista.appendChild(itemXB)
+      itemLista.appendChild(itemFB)
+      itemLista.appendChild(itemC)
+      itemLista.appendChild(itemFC)
+
+     // iteraçao.textContent = `XA = ${a} | f(a) = ${fa} | XB = ${b} | f(b) = ${fb} | C = ${c} | f(c) = ${fc} |`
+     itemLista.classList.add('lista-resultados')
+      listaResultados.appendChild(itemLista)
+
       if (fc === 0 || (b - a) / 2 < this.epsilon) {
         console.log(c)
-        return c;
+        return listaResultados;
       }
       
       if (fa * fc < 0) {
@@ -98,6 +131,7 @@ const inputEpsilon = document.querySelector('#epsilon')
 const btn = document.querySelector('#calcular')
 const intervalosDiv = document.getElementById('intervalos')
 const btnIntervalo = document.getElementById('teste')
+const resultadosDiv = document.querySelector('.resultados')
 
 
 
@@ -111,8 +145,8 @@ btnIntervalo.addEventListener('click', ()=> {
   const liA = document.querySelector('.numeroA')
   const liB = document.querySelector('.numeroB')
 
-  const numeroA = liA.innerText 
-  const numeroB = liB.innerText
+  const numeroA = parseInt(liA.innerText)
+  const numeroB = parseInt(liB.innerText)
 
-  calculadora.bisseccao(numeroA, numeroB)
+  resultadosDiv.appendChild(calculadora.bisseccao(numeroA, numeroB))
 })
