@@ -1,44 +1,118 @@
-// Defina os coeficientes do polinômio
-const input1 = document.querySelector(#coeficiente1)
-const input2 = document.querySelector(#coeficiente2)
-const input3 = document.querySelector(#coeficiente3)
-const input4 = document.querySelector(#coeficiente4)
-const inputEpsilon = document.querySelector(#epsilon)
-const btn = document.querySelector(#calcular)
+class Calculadora {
+
+  constructor(x1, x2, x3, x4, y){
+    this.coeficientes = [x1, x2, x3, x4]
+    this.epsilon = y
+  }
+
+  clear() {
+    this.coeficientes = []
+    this.epsilon = 0
+  }
+
+  setCoeficientes(x1, x2, x3, x4, y){
+    this.coeficientes = [x1, x2, x3, x4]
+    this.epsilon = y
+    console.log(this.coeficientes, this.epsilon)
+  }
+
+  getFuncao(x){
+    return parseInt(this.coeficientes[0]) * (x) ** 3 -parseInt(this.coeficientes[1]) * (x) ** 2 + parseInt(this.coeficientes[2]) * (x) + parseInt(this.coeficientes[3])
+  }
+
+  avaliaFuncao() {
+    let ultimoSinal = Math.sign(this.getFuncao(-1000));
+
+    const listaIntervalos = document.createElement('ul')
+    const tituloLista = document.createElement('h3');
+    tituloLista.textContent = 'Mudanças de sinais';
+    listaIntervalos.appendChild(tituloLista);
+
+    for (let x = -10; x <= 10; x++) {
+
+      const resultado = this.getFuncao(x);
+      const sinal = Math.sign(resultado);
+      console.log(`f(${x}) = ${resultado}`);
+
+      if (sinal !== ultimoSinal) {
+
+        console.log(`Houve mudança de sinal em f(x) para x = ${x}`);
+        ultimoSinal = sinal;
+
+        const NumeroA = document.createElement('li');
+        NumeroA.textContent = x - 1;
+        NumeroA.classList.add('numeroA');
+
+        const NumeroB = document.createElement('li');
+        NumeroB.textContent = x;
+        NumeroB.classList.add('numeroB');
+
+        btnIntervalo.classList.remove('hide')
+        listaIntervalos.appendChild(NumeroA);
+        listaIntervalos.appendChild(NumeroB);
+      }
+    }
+    return listaIntervalos;
+  }
+
+  bisseccao(a, b) {
+    let iter = 0;
+    let fa = this.getFuncao(a);
+    let fb = this.getFuncao(b);
+    
+    if (fa * fb >= 0) {
+      console.log('nulo1')
+      return null;
+    }
+    
+    while (iter < 10000) {
+      iter++;
+      
+      let c = (a + b) / 2;
+      let fc = this.getFuncao(c);
+      
+      if (fc === 0 || (b - a) / 2 < this.epsilon) {
+        console.log(c)
+        return c;
+      }
+      
+      if (fa * fc < 0) {
+        b = c;
+        fb = fc;
+      } else {
+        a = c;
+        fa = fc;
+      }
+    }
+    console.log('nulo')
+    return null;
+  }
+
+}
+
+const input1 = document.querySelector('#input1')
+const input2 = document.querySelector('#input2')
+const input3 = document.querySelector('#input3')
+const input4 = document.querySelector('#input4')
+const inputEpsilon = document.querySelector('#epsilon')
+const btn = document.querySelector('#calcular')
+const intervalosDiv = document.getElementById('intervalos')
+const btnIntervalo = document.getElementById('teste')
+
+
+
+const calculadora = new Calculadora(input1.value, input2.value, input3.value, input4.value, inputEpsilon.value)
 
 btn.addEventListener('click', ()=> {
-  const coeficientes = [input1.innerText, input2.innerText, input2.innerText, input2.innerText]
+  intervalosDiv.insertBefore(calculadora.avaliaFuncao(), intervalosDiv.children[0]);
 })
 
-console.log(coeficientes)
-// Defina o intervalo de busca
-const limiteInferior = -10;
-const limiteSuperior = 10;
+btnIntervalo.addEventListener('click', ()=> {
+  const liA = document.querySelector('.numeroA')
+  const liB = document.querySelector('.numeroB')
 
-// Encontre a derivada do polinômio
-const derivada = coeficientes.map((coeficiente, expoente) => coeficiente * expoente).slice(1);
+  const numeroA = liA.innerText 
+  const numeroB = liB.innerText
 
-// Encontre os pontos críticos da função
-const pontosCriticos = derivada.map((coeficiente, expoente) => expoente !== 0 ? -coeficiente / expoente : null)
-                              .filter(pontoCritico => pontoCritico !== null);
-
-// Adicione os limites inferior e superior aos pontos críticos
-pontosCriticos.push(limiteInferior, limiteSuperior);
-
-// Encontre o intervalo com o maior valor da função
-const intervalo = pontosCriticos.reduce((maiorIntervalo, pontoCritico, index) => {
-  const proximoPontoCritico = pontosCriticos[index + 1];
-  if (proximoPontoCritico !== undefined) {
-    const intervalo = [pontoCritico, proximoPontoCritico];
-    const valorMaximo = coeficientes.reduce((acumulador, coeficiente, expoente) => {
-      return acumulador + coeficiente * Math.pow((intervalo[0] + intervalo[1]) / 2, expoente);
-    }, 0);
-    if (valorMaximo > maiorIntervalo[1]) {
-      return [intervalo, valorMaximo];
-    }
-  }
-  return maiorIntervalo;
-}, [[], -Infinity])[0];
-
-// Exiba o resultado
-console.log(`O intervalo com o maior valor da função é [${intervalo[0]}, ${intervalo[1]}].`);
+  calculadora.bisseccao(numeroA, numeroB)
+})

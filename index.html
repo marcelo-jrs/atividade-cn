@@ -9,25 +9,20 @@
 </head>
 <body>
     <main>
-        <div class="container">
-            <div class="inputGroup">
-                <div class="input">
-                    <label for="funcao" class="label">f(x)=</label><input type="text" name="funcao" id="input1" class="inputFuncao">
-                    <label for="funcao" class="label">x^3-</label><input type="text" name="funcao" id="input2" class="inputFuncao">
-                    <label for="funcao" class="label">x^2+</label><input type="text" name="funcao" id="input3" class="inputFuncao">
-                    <label for="funcao" class="label">x+</label><input type="text" name="funcao" id="input4" class="inputFuncao">
-                </div>
-                <div class="input">
-                    <label for="epsilon" class="label">Critério de Parada (Epsilon)</label><input type="text" name="epsilon" id="epsilon" class="inputEpsilon">
-                </div>
+        <div class="input-group">
+            <div class="funcao-group">
+                <label for="funcao" class="label">f(x) = </label><input type="text" name="funcao" id="input1" class="input-funcao">
+                <label for="funcao" class="label"> x^3 - </label><input type="text" name="funcao" id="input2" class="input-funcao">
+                <label for="funcao" class="label"> x^2 + </label><input type="text" name="funcao" id="input3" class="input-funcao">
+                <label for="funcao" class="label"> x + </label><input type="text" name="funcao" id="input4" class="input-funcao">
             </div>
-            <div class="buttonGroup">
-                <button type="submit" class="button" id="calcular">Calcular</button>
-            </div>
+                <label for="epsilon" class="label">Epsilon</label><input type="text" name="epsilon" id="epsilon" class="input-epsilon">
+        </div>
+        <button type="submit" class="button" id="calcular">Calcular</button>
+        <div class="intervalos" id="intervalos">
+            <button class="button hide" id="teste">Calcular intervalo</button>
         </div>
     </main>
     <script src="script.js"></script>
 </body>
 </html>
-
-passar a função de -1000 até 1000 e guardar os valores em que o sinal do resultado da funçao mudam
